@@ -1,0 +1,318 @@
+Users:
+  9d3acbea-416c-4d5b-8288-75f167e256fb:
+    RANK: GAMEMASTER
+    WINS: '171'
+    CREDIT: '0'
+  33129520-221e-4403-a1e9-c6b124948216:
+    RANK: GAMEMASTER
+    WINS: '0'
+    CREDIT: '0'
+  2b5a6122-7220-48f2-ab8e-52787e7c1f19:
+    RANK: GAMEMASTER
+    WINS: '135'
+    CREDIT: '0'
+  94616d7b-3c2c-4b56-9758-2c3240993029:
+    RANK: GAMEMASTER
+    WINS: '78'
+    CREDIT: '0'
+  ca397b3c-a4f3-483d-8832-589d18422c6b:
+    RANK: GAMEMASTER
+    WINS: '24'
+    CREDIT: '0'
+  563f098d-f1a2-42f6-8a4d-4e47ddd0769c:
+    RANK: GAMEMASTER
+    WINS: '6'
+    CREDIT: '0'
+  4f6ef721-02b7-4240-ab87-bb922d74100d:
+    RANK: GAMEMASTER
+    WINS: '5'
+    CREDIT: '0'
+  c280ba06-f2fb-4357-92cd-32ba3b76c5f0:
+    RANK: GAMEMASTER
+    WINS: '54'
+    CREDIT: '0'
+  2d2b6fb7-6c11-47e9-a97e-1f55b12a387a:
+    RANK: DEFAULT
+    WINS: '28'
+    CREDIT: '0'
+Quirks:
+  Quirkless:
+    Type: None
+    Role: NA
+    Ability1CD: 0
+    Ability2CD: 0
+    Ability3CD: 0
+    Ability1Dmg: 0.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 0
+    Ability3Effect: 0
+    Ability1Stamina: 0.0
+    Ability2Stamina: 0.0
+    Ability3Stamina: 0.0
+    Ability1Info: blank
+    Ability2Info: blank
+    Ability3Info: blank
+    Ability1Comment: '&f <blank> '
+    Ability2Comment: '&f <blank> '
+    Ability3Comment: '&f <blank> '
+    DisplayName: Quirkless
+  Blackwhip:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 3
+    Ability2CD: 6
+    Ability3CD: 2
+    Ability1Dmg: 0.0
+    Ability2Dmg: 6.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 0
+    Ability3Effect: 0
+    Ability1Stamina: 25.0
+    Ability2Stamina: 30.0
+    Ability3Stamina: 15.0
+    Ability1Info: 20 Block Range
+    Ability2Info: 6 Block Range
+    Ability3Info: 12 Block Range
+    Ability1Comment: '&3 <Pull> '
+    Ability2Comment: '&8 <Triple Shock> '
+    Ability3Comment: '&f <Mobility> '
+    DisplayName: '&8Black&3Whip'
+  Permeation:
+    Type: Transformation
+    Role: '&cAttacker'
+    Ability1CD: 3
+    Ability2CD: 5
+    Ability3CD: 1
+    Ability1Dmg: 4.0
+    Ability2Dmg: 2.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 2
+    Ability3Effect: 0
+    Ability1Stamina: 10.0
+    Ability2Stamina: 40.0
+    Ability3Stamina: 10.0
+    Ability1Info: N/A
+    Ability2Info: Immobilized for 2 seconds
+    Ability3Info: Can only be used on ground
+    Ability1Comment: '&f <Punch> '
+    Ability2Comment: '&f <Stun Impact> '
+    Ability3Comment: '&6 <Phase> '
+    DisplayName: '&6Per&fmeation'
+  Erasure:
+    Type: Emitter
+    Role: '&eSupport'
+    Ability1CD: 3
+    Ability2CD: 2
+    Ability3CD: 2
+    Ability1Dmg: 4.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 2
+    Ability3Effect: 0
+    Ability1Stamina: 10.0
+    Ability2Stamina: 40.0
+    Ability3Stamina: 15.0
+    Ability1Info: N/A
+    Ability2Info: Erases Quirk for 5 seconds
+    Ability3Info: 12 Block Range
+    Ability1Comment: '&f <Punch> '
+    Ability2Comment: '&c <Erase> '
+    Ability3Comment: '&f <Grapple> '
+    DisplayName: '&cErasure'
+  Zero Gravity:
+    Type: Emitter
+    Role: '&eSupport'
+    Ability1CD: 0
+    Ability2CD: 4
+    Ability3CD: 2
+    Ability1Dmg: 4.0
+    Ability2Dmg: 2.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 5
+    Ability3Effect: 0
+    Ability1Stamina: 10.0
+    Ability2Stamina: 40.0
+    Ability3Stamina: 10.0
+    Ability1Info: Tags Entity
+    Ability2Info: Levitates Entities
+    Ability3Info: N/A
+    Ability1Comment: '&d <Tag> '
+    Ability2Comment: '&5 <Zero Gravity> '
+    Ability3Comment: '&f <Dash> '
+    DisplayName: '&dZero &5Gravity'
+  Half Cold Half Hot:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 5
+    Ability2CD: 6
+    Ability3CD: 8
+    Ability1Dmg: 0.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 4
+    Ability2Effect: 0
+    Ability3Effect: 2
+    Ability1Stamina: 35.0
+    Ability2Stamina: 20.0
+    Ability3Stamina: 15.0
+    Ability1Info: Immobilizes Entities
+    Ability2Info: Burns Entities
+    Ability3Info: Moves swiftly for 2 seconds
+    Ability1Comment: '&b <Ice Spikes> '
+    Ability2Comment: '&c <Blaze> '
+    Ability3Comment: '&f <&bFrozen &cFlame &fDash> '
+    DisplayName: '&3Half &bCold &4Half &cHot'
+  Explosion:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 3
+    Ability2CD: 8
+    Ability3CD: 0
+    Ability1Dmg: 3.0
+    Ability2Dmg: 2.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 3
+    Ability3Effect: 0
+    Ability1Stamina: 25.0
+    Ability2Stamina: 40.0
+    Ability3Stamina: 4.0
+    Ability1Info: N/A
+    Ability2Info: Blinds for 3 seconds
+    Ability3Info: N/A
+    Ability1Comment: '&6 <Explosion> '
+    Ability2Comment: '&7 <Blind Shot> '
+    Ability3Comment: '&6 <Explosive Speed> '
+    DisplayName: '&6Explosion'
+  Tape:
+    Type: Emitter
+    Role: '&eSupport'
+    Ability1CD: 2
+    Ability2CD: 7
+    Ability3CD: 1
+    Ability1Dmg: 0.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 7
+    Ability2Effect: 2
+    Ability3Effect: 0
+    Ability1Stamina: 15.0
+    Ability2Stamina: 30.0
+    Ability3Stamina: 4.0
+    Ability1Info: Tape lasts for 7 seconds
+    Ability2Info: Stuns for 2 seconds
+    Ability3Info: N/A
+    Ability1Comment: '&f <Tape> '
+    Ability2Comment: '&f <Stun Impact> '
+    Ability3Comment: '&f <Mobility> '
+    DisplayName: '&fTape'
+  Decay:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 3
+    Ability2CD: 6
+    Ability3CD: 4
+    Ability1Dmg: 1.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 3
+    Ability2Effect: 2
+    Ability3Effect: 0
+    Ability1Stamina: 15.0
+    Ability2Stamina: 30.0
+    Ability3Stamina: 4.0
+    Ability1Info: Disintegrates a target for 3 seconds
+    Ability2Info: Disintegrates blocks in a direction decaying enemies touching it
+    Ability3Info: N/A
+    Ability1Comment: '&7 <Decay> '
+    Ability2Comment: '&8 <Desolation> '
+    Ability3Comment: '&7 <Dash> '
+    DisplayName: '&8Decay'
+  Engine:
+    Type: Mutant
+    Role: '&cAttacker'
+    Ability1CD: 3
+    Ability2CD: 15
+    Ability3CD: 0
+    Ability1Dmg: 2.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 10
+    Ability3Effect: 0
+    Ability1Stamina: 5.0
+    Ability2Stamina: 30.0
+    Ability3Stamina: 8.0
+    Ability1Info: N/A
+    Ability2Info: Increases Speed for 10 seconds and gains slowness afterwards
+    Ability3Info: Picks up players
+    Ability1Comment: '&f <Punch> '
+    Ability2Comment: '&b <Recipro Burst> '
+    Ability3Comment: '&f <Pick Up> '
+    DisplayName: '&fEn&bgine'
+  Fajin:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 2
+    Ability2CD: 15
+    Ability3CD: 1
+    Ability1Dmg: 3.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 10
+    Ability3Effect: 0
+    Ability1Stamina: 5.0
+    Ability2Stamina: 30.0
+    Ability3Stamina: 8.0
+    Ability1Info: N/A
+    Ability2Info: Increases Speed for 10 seconds and gains slowness afterwards
+    Ability3Info: Picks up players
+    Ability1Comment: '&3 <Smash> '
+    Ability2Comment: '&b <Kinetic Release> '
+    Ability3Comment: '&3 <Dash> '
+    DisplayName: '&bFa&3Jin'
+Arenas:
+  Omega:
+    NAME: Omega
+    LOBBYSPAWN:
+      X: 218.0528439351892
+      Y: 38.0
+      Z: -145.8838446899369
+    REDSPAWN:
+      X: 172.65201902292242
+      Y: 33.0
+      Z: -91.03133942708253
+    BLUESPAWN:
+      X: 251.36572811281053
+      Y: 33.0
+      Z: -190.85492655229854
+    COMPLETE: true
+  Mall:
+    NAME: Mall
+    LOBBYSPAWN:
+      X: 92.957
+      Y: 23.0
+      Z: 113.805
+    REDSPAWN:
+      X: 67.491
+      Y: 22.0
+      Z: 169.346
+    BLUESPAWN:
+      X: 120.43
+      Y: 22.0
+      Z: 86.581
+    COMPLETE: true
+Game:
+  Settings:
+    Minutes: 10
+    Seconds: 0
+    StaminaRegen: false
+    StartingHealth: 40
+    StartingStamina: 800

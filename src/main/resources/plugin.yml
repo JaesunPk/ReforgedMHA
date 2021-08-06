@@ -1,0 +1,10 @@
+name: ReforgedMHA
+version: ${project.version}
+main: hadences.reforgedmha.ReforgedMHA
+api-version: 1.17
+authors: [ Hadences ]
+commands:
+  mhaarena:
+  dev:
+  pt:
+  rstamina:
