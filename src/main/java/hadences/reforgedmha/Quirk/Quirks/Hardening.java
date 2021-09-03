@@ -1,6 +1,7 @@
 package hadences.reforgedmha.Quirk.Quirks;
 
 import hadences.reforgedmha.Quirk.QuirkCastManager;
+import hadences.reforgedmha.Quirk.UniversalSkill;
 import hadences.reforgedmha.ReforgedMHA;
 import hadences.reforgedmha.Utility.RaycastUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -20,13 +21,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 
+import static hadences.reforgedmha.PlayerManager.FixQuirkSchedulers;
 import static hadences.reforgedmha.PlayerManager.playerdata;
 
 public class Hardening extends QuirkCastManager implements Listener {
+
+    UniversalSkill universalSkill = new UniversalSkill();
+
     private boolean passive = true;
     ItemStack helm = new ItemStack(Material.IRON_HELMET);
     ItemStack chest = new ItemStack(Material.IRON_CHESTPLATE);
@@ -40,7 +47,7 @@ public class Hardening extends QuirkCastManager implements Listener {
         playerdata.get(p.getUniqueId()).setQuirkinState(true);
         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE,2 ,0.5f);
         p.sendMessage(ChatColor.GREEN + "Hardened for 10 seconds");
-        (p).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,180,3));
+        (p).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,180,1,true,false));
 
         armor[0] = boot;
         armor[1] = leg;
@@ -50,20 +57,10 @@ public class Hardening extends QuirkCastManager implements Listener {
         p.getInventory().setArmorContents(armor);
 
         hardener = p;
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                playerdata.get(p.getUniqueId()).setQuirkinState(false);
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK,2 ,2);
 
-                p.getInventory().setHelmet(null);
-                p.getInventory().setChestplate(null);
-                p.getInventory().setLeggings(null);
-                p.getInventory().setBoots(null);
+        BukkitTask HardernerTask = new HardeningScheduler(hardener,p, ReforgedMHA.getPlugin(ReforgedMHA.class)).runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),playerdata.get(p.getUniqueId()).getQuirk().getAbility1Effect());
+        FixQuirkSchedulers(p,playerdata.get(p.getUniqueId()).getQuirk().getName(),HardernerTask);
 
-                hardener = null;
-            }
-        }.runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),200L);
         return true;
     }
     public boolean CastAbility2(Player p) {
@@ -79,6 +76,8 @@ public class Hardening extends QuirkCastManager implements Listener {
             if(e instanceof LivingEntity) {
                 e.setVelocity(new Vector(0, 1, 0));
                 ((LivingEntity) e).damage(playerdata.get(p.getUniqueId()).getQuirk().getAbility2Dmg());
+                //((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect(),5,true,false));
+
             }
         }
         target.clear();
@@ -86,7 +85,9 @@ public class Hardening extends QuirkCastManager implements Listener {
         return true;
     }
     public boolean CastAbility3(Player p) {
-        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT,2,1);
+        universalSkill.Punch(p,playerdata.get(p.getUniqueId()).getQuirk().getAbility3Dmg(),0);
+        return true;
+        /*p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT,2,1);
         p.setVelocity(new Vector(0,1,0).multiply(4));
         new BukkitRunnable(){
             @Override
@@ -94,7 +95,7 @@ public class Hardening extends QuirkCastManager implements Listener {
                 p.setVelocity(new Vector(p.getEyeLocation().getDirection().getX(), 0, p.getEyeLocation().getDirection().getZ()).normalize().multiply(1.2));
             }
         }.runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),1);
-        return true;
+        return true;*/
     }
 
     @EventHandler
@@ -122,4 +123,30 @@ public class Hardening extends QuirkCastManager implements Listener {
         return passive;
     }
 
+}
+
+class HardeningScheduler extends BukkitRunnable{
+
+    Player p;
+    ReforgedMHA plugin;
+    Player hardener;
+
+    public HardeningScheduler(Player hardener,Player e, ReforgedMHA plugin){
+        this.p = e;
+        this.plugin = plugin;
+        this.hardener = hardener;
+    }
+
+    @Override
+    public void run() {
+        playerdata.get(p.getUniqueId()).setQuirkinState(false);
+        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK,2 ,2);
+
+        p.getInventory().setHelmet(null);
+        p.getInventory().setChestplate(null);
+        p.getInventory().setLeggings(null);
+        p.getInventory().setBoots(null);
+
+        hardener = null;
+    }
 }

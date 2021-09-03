@@ -22,7 +22,7 @@ public class GamemodeMenu {
 
         ItemStack item_close = new ItemStack(Material.BARRIER);
 
-        ItemStack item_game = new ItemStack(Material.LIME_DYE);
+        ItemStack item_game = new ItemStack(Material.ENCHANTED_BOOK);
 
         List<String> lore = new ArrayList<>();
 
@@ -44,6 +44,33 @@ public class GamemodeMenu {
             item_game.setItemMeta(meta);
             gamemodeMenu.setItem(0, item_game);
 
+        //item_quirk data
+        meta = item_game.getItemMeta();
+        meta.setDisplayName(WHITE + "" + BOLD + "[" + GREEN + "" + BOLD + "Gamemode" + WHITE + "" + BOLD + "] " + ChatColor.AQUA + "Infiltrate" + ChatColor.DARK_AQUA + " -/- " + ChatColor.AQUA + "Defend");
+        lore.clear();
+        lore.add("Destroy the opposing team's point to win!");
+        meta.setLore(lore);
+        item_game.setItemMeta(meta);
+        gamemodeMenu.setItem(1, item_game);
+
+        //item_quirk data
+        meta = item_game.getItemMeta();
+        meta.setDisplayName(WHITE + "" + BOLD + "[" + GREEN + "" + BOLD + "Gamemode" + WHITE + "" + BOLD + "] " + ChatColor.AQUA + "FFA");
+        lore.clear();
+        lore.add("First to 15 kills win!");
+        meta.setLore(lore);
+        item_game.setItemMeta(meta);
+        gamemodeMenu.setItem(2, item_game);
+
+
+        //item_quirk data
+        /*meta = item_game.getItemMeta();
+        meta.setDisplayName(WHITE + "" + BOLD + "[" + GREEN + "" + BOLD + "Gamemode" + WHITE + "" + BOLD + "] " + ChatColor.LIGHT_PURPLE + "Free For All");
+        lore.clear();
+        lore.add("Solo Battle!");
+        meta.setLore(lore);
+        item_game.setItemMeta(meta);
+        gamemodeMenu.setItem(2, item_game);*/
 
     }
 

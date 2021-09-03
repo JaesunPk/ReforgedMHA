@@ -23,7 +23,7 @@ public class QuirkMenu {
 
         ItemStack item_close = new ItemStack(Material.BARRIER);
 
-        ItemStack item_quirk = new ItemStack(Material.LIME_DYE);
+        ItemStack item_quirk = new ItemStack(Material.BOOK);
 
         ItemStack randomizer = new ItemStack(Material.BEACON);
 

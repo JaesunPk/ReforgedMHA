@@ -12,11 +12,15 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.sql.Ref;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import static hadences.reforgedmha.PlayerManager.FixQuirkSchedulers;
 import static hadences.reforgedmha.PlayerManager.playerdata;
 import static hadences.reforgedmha.Utility.RaycastUtils.cleanTargetList;
 
@@ -38,7 +42,7 @@ public class Erasure extends QuirkCastManager {
     public boolean CastAbility3(Player p) {
         loc = p.getLocation();
         double hitbox = 0.2;
-        endpoint = RaycastUtils.StartRaycast(p,15,hitbox);
+        endpoint = RaycastUtils.StartRaycast(p,15,hitbox,false);
         double length = RaycastUtils.calculateDistance(loc,endpoint);
         if(endpoint.getBlock().isSolid() && endpoint.getBlock().getType() != Material.BARRIER) {
             p.getWorld().playSound(p.getLocation(),Sound.ENTITY_BAT_TAKEOFF,2,1);
@@ -68,7 +72,7 @@ public class Erasure extends QuirkCastManager {
         loc = p.getEyeLocation();
         Vector pos;
         double hitbox = 0.5;
-        endpoint = RaycastUtils.StartRaycast(p,50,hitbox);
+        endpoint = RaycastUtils.StartRaycast(p,50,hitbox,false);
         List<Entity> TargetList = (List<Entity>) endpoint.getNearbyEntities(hitbox,hitbox,hitbox);
         TargetList = cleanTargetList(p,TargetList,false);
         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ILLUSIONER_CAST_SPELL,2,2);
@@ -97,14 +101,10 @@ public class Erasure extends QuirkCastManager {
     public void QuirkErased(Player e, Player p){
         playerdata.get(e.getUniqueId()).setAllowSkill(false);
         e.sendTitle(ChatColor.RED + "QUIRK ERASED","");
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                playerdata.get(e.getUniqueId()).setAllowSkill(true);
-                this.cancel();
-            }
-        }.runTaskLater(plugin,playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect());
+        BukkitTask ErasureTask = new ErasureScheduler(e,ReforgedMHA.getPlugin(ReforgedMHA.class)).runTaskLater(plugin,playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect());
+        FixQuirkSchedulers(e,playerdata.get(p.getUniqueId()).getQuirk().getName(),ErasureTask);
     }
+
 
     public void ErasureAbilityBlock(Location block, Player p){
         new BukkitRunnable(){
@@ -124,3 +124,20 @@ public class Erasure extends QuirkCastManager {
         }.runTaskTimer(plugin,0,0);
     }
 }
+
+class ErasureScheduler extends BukkitRunnable{
+
+    Player e;
+    ReforgedMHA plugin;
+    public ErasureScheduler(Player e, ReforgedMHA plugin){
+        this.e = e;
+        this.plugin = plugin;
+    }
+
+    @Override
+    public void run() {
+        playerdata.get(e.getUniqueId()).setAllowSkill(true);
+        this.cancel();
+    }
+}
+

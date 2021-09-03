@@ -1,7 +1,6 @@
 package hadences.reforgedmha.Quirk;
 
-import hadences.reforgedmha.Quirk.Cooldown;
-import hadences.reforgedmha.Quirk.Stamina;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

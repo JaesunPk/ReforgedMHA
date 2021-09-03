@@ -1,7 +1,7 @@
 Users:
   9d3acbea-416c-4d5b-8288-75f167e256fb:
     RANK: GAMEMASTER
-    WINS: '171'
+    WINS: '378'
     CREDIT: '0'
   33129520-221e-4403-a1e9-c6b124948216:
     RANK: GAMEMASTER
@@ -9,31 +9,39 @@ Users:
     CREDIT: '0'
   2b5a6122-7220-48f2-ab8e-52787e7c1f19:
     RANK: GAMEMASTER
-    WINS: '135'
+    WINS: '343'
     CREDIT: '0'
   94616d7b-3c2c-4b56-9758-2c3240993029:
     RANK: GAMEMASTER
-    WINS: '78'
+    WINS: '131'
     CREDIT: '0'
   ca397b3c-a4f3-483d-8832-589d18422c6b:
     RANK: GAMEMASTER
-    WINS: '24'
+    WINS: '109'
     CREDIT: '0'
   563f098d-f1a2-42f6-8a4d-4e47ddd0769c:
     RANK: GAMEMASTER
-    WINS: '6'
+    WINS: '100'
     CREDIT: '0'
   4f6ef721-02b7-4240-ab87-bb922d74100d:
     RANK: GAMEMASTER
-    WINS: '5'
+    WINS: '9'
     CREDIT: '0'
   c280ba06-f2fb-4357-92cd-32ba3b76c5f0:
     RANK: GAMEMASTER
-    WINS: '54'
+    WINS: '99'
     CREDIT: '0'
   2d2b6fb7-6c11-47e9-a97e-1f55b12a387a:
     RANK: DEFAULT
-    WINS: '28'
+    WINS: '57'
+    CREDIT: '0'
+  2ae91861-3adb-4644-8a57-36371cfd4e10:
+    RANK: DEFAULT
+    WINS: '2'
+    CREDIT: '0'
+  1cb740d4-c6a0-46a5-80d2-4b9cf6a896e9:
+    RANK: DEFAULT
+    WINS: '8'
     CREDIT: '0'
 Quirks:
   Quirkless:
@@ -61,9 +69,9 @@ Quirks:
   Blackwhip:
     Type: Emitter
     Role: '&cAttacker'
-    Ability1CD: 3
+    Ability1CD: 4
     Ability2CD: 6
-    Ability3CD: 2
+    Ability3CD: 0
     Ability1Dmg: 0.0
     Ability2Dmg: 6.0
     Ability3Dmg: 0.0
@@ -83,20 +91,20 @@ Quirks:
   Permeation:
     Type: Transformation
     Role: '&cAttacker'
-    Ability1CD: 3
+    Ability1CD: 4
     Ability2CD: 5
     Ability3CD: 1
     Ability1Dmg: 4.0
     Ability2Dmg: 2.0
     Ability3Dmg: 0.0
     Ability1Effect: 0
-    Ability2Effect: 2
+    Ability2Effect: 1
     Ability3Effect: 0
     Ability1Stamina: 10.0
-    Ability2Stamina: 40.0
+    Ability2Stamina: 30.0
     Ability3Stamina: 10.0
     Ability1Info: N/A
-    Ability2Info: Immobilized for 2 seconds
+    Ability2Info: Immobilized for 1 seconds
     Ability3Info: Can only be used on ground
     Ability1Comment: '&f <Punch> '
     Ability2Comment: '&f <Stun Impact> '
@@ -115,10 +123,10 @@ Quirks:
     Ability2Effect: 2
     Ability3Effect: 0
     Ability1Stamina: 10.0
-    Ability2Stamina: 40.0
+    Ability2Stamina: 10.0
     Ability3Stamina: 15.0
     Ability1Info: N/A
-    Ability2Info: Erases Quirk for 5 seconds
+    Ability2Info: Erases Quirk for 2 seconds
     Ability3Info: 12 Block Range
     Ability1Comment: '&f <Punch> '
     Ability2Comment: '&c <Erase> '
@@ -127,62 +135,62 @@ Quirks:
   Zero Gravity:
     Type: Emitter
     Role: '&eSupport'
-    Ability1CD: 0
-    Ability2CD: 4
-    Ability3CD: 2
-    Ability1Dmg: 4.0
-    Ability2Dmg: 2.0
+    Ability1CD: 4
+    Ability2CD: 0
+    Ability3CD: 0
+    Ability1Dmg: 3.5
+    Ability2Dmg: 0.0
     Ability3Dmg: 0.0
-    Ability1Effect: 0
-    Ability2Effect: 5
-    Ability3Effect: 0
-    Ability1Stamina: 10.0
-    Ability2Stamina: 40.0
+    Ability1Effect: 3
+    Ability2Effect: 0
+    Ability3Effect: 3
+    Ability1Stamina: 20.0
+    Ability2Stamina: 5.0
     Ability3Stamina: 10.0
     Ability1Info: Tags Entity
     Ability2Info: Levitates Entities
     Ability3Info: N/A
-    Ability1Comment: '&d <Tag> '
-    Ability2Comment: '&5 <Zero Gravity> '
-    Ability3Comment: '&f <Dash> '
+    Ability1Comment: '&d <Gravity Punch> '
+    Ability2Comment: '&5 <Deactivate> '
+    Ability3Comment: '&f <Self Gravitation> '
     DisplayName: '&dZero &5Gravity'
   Half Cold Half Hot:
     Type: Emitter
     Role: '&cAttacker'
-    Ability1CD: 5
+    Ability1CD: 10
     Ability2CD: 6
-    Ability3CD: 8
+    Ability3CD: 7
     Ability1Dmg: 0.0
-    Ability2Dmg: 0.0
+    Ability2Dmg: 1.5
     Ability3Dmg: 0.0
     Ability1Effect: 4
-    Ability2Effect: 0
+    Ability2Effect: 3
     Ability3Effect: 2
     Ability1Stamina: 35.0
     Ability2Stamina: 20.0
     Ability3Stamina: 15.0
     Ability1Info: Immobilizes Entities
-    Ability2Info: Burns Entities
+    Ability2Info: Shoots 5 consecutive fireballs
     Ability3Info: Moves swiftly for 2 seconds
-    Ability1Comment: '&b <Ice Spikes> '
-    Ability2Comment: '&c <Blaze> '
+    Ability1Comment: '&b <Ice Wall> '
+    Ability2Comment: '&c <Flame Barrage> '
     Ability3Comment: '&f <&bFrozen &cFlame &fDash> '
     DisplayName: '&3Half &bCold &4Half &cHot'
   Explosion:
     Type: Emitter
     Role: '&cAttacker'
-    Ability1CD: 3
-    Ability2CD: 8
+    Ability1CD: 5
+    Ability2CD: 6
     Ability3CD: 0
-    Ability1Dmg: 3.0
+    Ability1Dmg: 4.0
     Ability2Dmg: 2.0
     Ability3Dmg: 0.0
     Ability1Effect: 0
     Ability2Effect: 3
     Ability3Effect: 0
     Ability1Stamina: 25.0
-    Ability2Stamina: 40.0
-    Ability3Stamina: 4.0
+    Ability2Stamina: 35.0
+    Ability3Stamina: 2.0
     Ability1Info: N/A
     Ability2Info: Blinds for 3 seconds
     Ability3Info: N/A
@@ -193,19 +201,19 @@ Quirks:
   Tape:
     Type: Emitter
     Role: '&eSupport'
-    Ability1CD: 2
-    Ability2CD: 7
+    Ability1CD: 3
+    Ability2CD: 5
     Ability3CD: 1
     Ability1Dmg: 0.0
     Ability2Dmg: 0.0
     Ability3Dmg: 0.0
-    Ability1Effect: 7
+    Ability1Effect: 4
     Ability2Effect: 2
     Ability3Effect: 0
-    Ability1Stamina: 15.0
+    Ability1Stamina: 20.0
     Ability2Stamina: 30.0
     Ability3Stamina: 4.0
-    Ability1Info: Tape lasts for 7 seconds
+    Ability1Info: Tape lasts for 4 seconds
     Ability2Info: Stuns for 2 seconds
     Ability3Info: N/A
     Ability1Comment: '&f <Tape> '
@@ -215,29 +223,29 @@ Quirks:
   Decay:
     Type: Emitter
     Role: '&cAttacker'
-    Ability1CD: 3
-    Ability2CD: 6
-    Ability3CD: 4
-    Ability1Dmg: 1.0
+    Ability1CD: 4
+    Ability2CD: 0
+    Ability3CD: 10
+    Ability1Dmg: 1.5
     Ability2Dmg: 0.0
     Ability3Dmg: 0.0
     Ability1Effect: 3
     Ability2Effect: 2
-    Ability3Effect: 0
+    Ability3Effect: 5
     Ability1Stamina: 15.0
     Ability2Stamina: 30.0
     Ability3Stamina: 4.0
     Ability1Info: Disintegrates a target for 3 seconds
     Ability2Info: Disintegrates blocks in a direction decaying enemies touching it
-    Ability3Info: N/A
+    Ability3Info: Mobility Enhanced for 5 seconds
     Ability1Comment: '&7 <Decay> '
     Ability2Comment: '&8 <Desolation> '
-    Ability3Comment: '&7 <Dash> '
+    Ability3Comment: '&7 <Enchanced Mobility> '
     DisplayName: '&8Decay'
   Engine:
     Type: Mutant
     Role: '&cAttacker'
-    Ability1CD: 3
+    Ability1CD: 4
     Ability2CD: 15
     Ability3CD: 0
     Ability1Dmg: 2.0
@@ -250,8 +258,8 @@ Quirks:
     Ability2Stamina: 30.0
     Ability3Stamina: 8.0
     Ability1Info: N/A
-    Ability2Info: Increases Speed for 10 seconds and gains slowness afterwards
-    Ability3Info: Picks up players
+    Ability2Info: Increases Speed for 10 seconds and gains slowness
+    Ability3Info: Pick up players
     Ability1Comment: '&f <Punch> '
     Ability2Comment: '&b <Recipro Burst> '
     Ability3Comment: '&f <Pick Up> '
@@ -259,25 +267,138 @@ Quirks:
   Fajin:
     Type: Emitter
     Role: '&cAttacker'
-    Ability1CD: 2
-    Ability2CD: 15
+    Ability1CD: 3
+    Ability2CD: 20
     Ability3CD: 1
-    Ability1Dmg: 3.0
+    Ability1Dmg: 2.0
     Ability2Dmg: 0.0
     Ability3Dmg: 0.0
     Ability1Effect: 0
-    Ability2Effect: 10
+    Ability2Effect: 14
     Ability3Effect: 0
     Ability1Stamina: 5.0
     Ability2Stamina: 30.0
     Ability3Stamina: 8.0
     Ability1Info: N/A
-    Ability2Info: Increases Speed for 10 seconds and gains slowness afterwards
-    Ability3Info: Picks up players
+    Ability2Info: Increases Power of Smash and Dash for 14 seconds
+    Ability3Info: N/A
     Ability1Comment: '&3 <Smash> '
     Ability2Comment: '&b <Kinetic Release> '
     Ability3Comment: '&3 <Dash> '
     DisplayName: '&bFa&3Jin'
+  Hardening:
+    Type: Transformation
+    Role: '&eSupport'
+    Ability1CD: 25
+    Ability2CD: 5
+    Ability3CD: 5
+    Ability1Dmg: 0.0
+    Ability2Dmg: 2.0
+    Ability3Dmg: 3.0
+    Ability1Effect: 15
+    Ability2Effect: 0
+    Ability3Effect: 0
+    Ability1Stamina: 35.0
+    Ability2Stamina: 10.0
+    Ability3Stamina: 8.0
+    Ability1Info: User becomes invincible for 15 seconds
+    Ability2Info: User Slams the ground airborning all entities
+    Ability3Info: N/A
+    Ability1Comment: '&4 <Harden> '
+    Ability2Comment: '&4 <Gauntlet Fissure> '
+    Ability3Comment: '&8 <Punch> '
+    DisplayName: '&4Hard&8ening'
+  Cremation:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 6
+    Ability2CD: 7
+    Ability3CD: 0
+    Ability1Dmg: 3.0
+    Ability2Dmg: 2.5
+    Ability3Dmg: 0.5
+    Ability1Effect: 0
+    Ability2Effect: 5
+    Ability3Effect: 0
+    Ability1Stamina: 35.0
+    Ability2Stamina: 10.0
+    Ability3Stamina: 8.0
+    Ability1Info: Shoots a burst of flames
+    Ability2Info: Burn enemies for 5 seconds
+    Ability3Info: N/A
+    Ability1Comment: '&b <Flame Burst> '
+    Ability2Comment: '&3 <Ignition> '
+    Ability3Comment: '&b <Flamethrower> '
+    DisplayName: '&bCremation'
+  Rewind:
+    Type: Emitter
+    Role: '&eSupport'
+    Ability1CD: 3
+    Ability2CD: 6
+    Ability3CD: 1
+    Ability1Dmg: 0.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 15
+    Ability2Effect: 0
+    Ability3Effect: 0
+    Ability1Stamina: 5.0
+    Ability2Stamina: 5.0
+    Ability3Stamina: 45.0
+    Ability1Info: Confuses a player for 15 seconds
+    Ability2Info: Airbornes all enemies
+    Ability3Info: Rewinds a targeted ally's cooldown to zero
+    Ability1Comment: '&e <Confusion> '
+    Ability2Comment: '&f <Tension Blow> '
+    Ability3Comment: '&e <Rewind> '
+    DisplayName: '&eRewind'
+  Heal:
+    Type: Emitter
+    Role: '&eSupport'
+    Ability1CD: 3
+    Ability2CD: 1
+    Ability3CD: 0
+    Ability1Dmg: 4.0
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.5
+    Ability1Effect: 0
+    Ability2Effect: 25
+    Ability3Effect: 0
+    Ability1Stamina: 35.0
+    Ability2Stamina: 2.0
+    Ability3Stamina: 8.0
+    Ability1Info: Steals 4 hearts from an enemy
+    Ability2Info: Grants 25 stamina to a targeted ally
+    Ability3Info: Heals a targeted ally; Damages the user
+    Ability1Comment: '&a <Life Force> '
+    Ability2Comment: '&e <Stamina Boost> '
+    Ability3Comment: '&a <Heartfusion> '
+    DisplayName: '&aHeal'
+  One For All:
+    Type: Emitter
+    Role: '&cAttacker'
+    Ability1CD: 2
+    Ability2CD: 4
+    Ability3CD: 10
+    Ability1Dmg: 2.5
+    Ability2Dmg: 0.0
+    Ability3Dmg: 0.0
+    Ability1Effect: 0
+    Ability2Effect: 0
+    Ability3Effect: 25
+    Ability1Stamina: 10.0
+    Ability2Stamina: 15.0
+    Ability3Stamina: 25.0
+    Ability1Info: '&f&l[&7&lSmokescreen&f&l] &r&6 RC - 2 - 2 &f&l[&9&lFloat&f&l] &r&6
+      RC - 1 - 1'
+    Ability2Info: '&f&l[&a&lDetroit Smash&f&l] &r&6 RC - 1 - 2 &f&l[&a&lManchester
+      Smash&f&l] &r&6 RC - 2 - 1'
+    Ability3Info: '&f&l[&a&lDelaware Smash Air Force&f&l] &r&6 RC - 1 - RC &f&l[&a&lUnited
+      States of Smash&f&l] &r&6 RC - 2 - RC - 1 - 2'
+    Ability1Comment: '&f <&a5% &fSmash | &aOne> '
+    Ability2Comment: '&f <&8Black&3Whip &f| &aTwo> '
+    Ability3Comment: '&f <&2One For All : &a100% Full Cowling> '
+    DisplayName: '&4O&cn&6e &eF&2o&ar &bA&3l&1l'
 Arenas:
   Omega:
     NAME: Omega
@@ -293,6 +414,14 @@ Arenas:
       X: 251.36572811281053
       Y: 33.0
       Z: -190.85492655229854
+    REDOBJECTIVE:
+      X: 179.41641553773576
+      Y: 33.0
+      Z: -123.23043030775273
+    BLUEOBJECTIVE:
+      X: 237.2849610894415
+      Y: 34.0
+      Z: -176.14843713041347
     COMPLETE: true
   Mall:
     NAME: Mall
@@ -308,6 +437,60 @@ Arenas:
       X: 120.43
       Y: 22.0
       Z: 86.581
+    REDOBJECTIVE:
+      X: 81.62599072938507
+      Y: 23.0
+      Z: 162.47217194924792
+    BLUEOBJECTIVE:
+      X: 108.03624883096653
+      Y: 23.0
+      Z: 99.12167921336678
+    COMPLETE: true
+  Station:
+    NAME: Station
+    LOBBYSPAWN:
+      X: 279.3032884800536
+      Y: 81.0
+      Z: 148.54938894821413
+    REDSPAWN:
+      X: 223.69624131751155
+      Y: 81.0
+      Z: 148.59293295408176
+    BLUESPAWN:
+      X: 332.2683359306711
+      Y: 81.0
+      Z: 148.51514717453188
+    REDOBJECTIVE:
+      X: 255.67737738739726
+      Y: 81.0
+      Z: 148.44676861554422
+    BLUEOBJECTIVE:
+      X: 300.4590374849555
+      Y: 81.0
+      Z: 148.50454645846693
+    COMPLETE: true
+  Construction:
+    NAME: Construction
+    LOBBYSPAWN:
+      X: -269.69999998807907
+      Y: 53.0
+      Z: 158.30000001192093
+    REDSPAWN:
+      X: -297.9335140548638
+      Y: 38.0
+      Z: 187.33905251701
+    BLUESPAWN:
+      X: -243.23212466075094
+      Y: 38.0
+      Z: 133.12738342743828
+    REDOBJECTIVE:
+      X: -284.49217965052986
+      Y: 38.0
+      Z: 173.52490727461438
+    BLUEOBJECTIVE:
+      X: -255.5442975015392
+      Y: 38.0
+      Z: 143.59956006943227
     COMPLETE: true
 Game:
   Settings:
@@ -316,3 +499,4 @@ Game:
     StaminaRegen: false
     StartingHealth: 40
     StartingStamina: 800
+    IronGolemHealth: 200

@@ -17,10 +17,12 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.util.ArrayList;
 
+import static hadences.reforgedmha.PlayerManager.FixQuirkSchedulers;
 import static hadences.reforgedmha.PlayerManager.playerdata;
 
 public class Engine extends QuirkCastManager implements Listener{
@@ -37,20 +39,14 @@ public class Engine extends QuirkCastManager implements Listener{
     public boolean CastAbility2(Player p) {
         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT,2,2);
         p.setWalkSpeed(0.8f);
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                p.setWalkSpeed(0.4f);
-                p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH,2,1);
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,30,3));
-            }
-        }.runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect());
+        BukkitTask EngineTask = new EngineScheduler(p,ReforgedMHA.getPlugin(ReforgedMHA.class)).runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect());
+        FixQuirkSchedulers(p,playerdata.get(p.getUniqueId()).getQuirk().getName(),EngineTask);
         return true;
     }
 
     public boolean CastAbility3(Player p) {
-        Location loc = RaycastUtils.StartRaycast(p,3,0.8);
-        ArrayList<Entity> target = (ArrayList<Entity>) loc.getNearbyEntities(0.5,0.5,0.5);
+        Location loc = RaycastUtils.StartRaycast(p,3,0.8,false);
+        ArrayList<Entity> target = (ArrayList<Entity>) loc.getNearbyEntities(0.8,0.8,0.8);
         target = (ArrayList<Entity>) RaycastUtils.cleanTargetList(p,target,true);
         /*if(playerdata.get(p.getUniqueId()).getQuirkTaggedEntity() != null){
             try{
@@ -106,4 +102,21 @@ public class Engine extends QuirkCastManager implements Listener{
     }
 
 
+}
+
+class EngineScheduler extends BukkitRunnable{
+
+    Player p;
+    ReforgedMHA plugin;
+    public EngineScheduler(Player e, ReforgedMHA plugin){
+        this.p = e;
+        this.plugin = plugin;
+    }
+
+    @Override
+    public void run() {
+        p.setWalkSpeed(0.4f);
+        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH,2,1);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,30,3));
+    }
 }

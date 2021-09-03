@@ -1,5 +1,6 @@
 package hadences.reforgedmha.Quirk.Quirks;
 
+import hadences.reforgedmha.Object.MHABlock;
 import hadences.reforgedmha.Quirk.Damage;
 import hadences.reforgedmha.Quirk.QuirkCastManager;
 import hadences.reforgedmha.ReforgedMHA;
@@ -26,7 +27,7 @@ public class Decay extends QuirkCastManager {
 
     public boolean CastAbility1(Player p) {
         int decay_timer = playerdata.get(p.getUniqueId()).getQuirk().getAbility1Effect();
-        Location endpoint = RaycastUtils.StartRaycast(p,2,1);
+        Location endpoint = RaycastUtils.StartRaycast(p,2.5,1,false);
         List<Entity> target = (List<Entity>) endpoint.getNearbyEntities(1,1,1);
         target = cleanTargetList(p,target,false);
         Location loc = p.getEyeLocation();
@@ -58,21 +59,32 @@ public class Decay extends QuirkCastManager {
         if(!p.isOnGround()){ p.sendMessage(ChatColor.RED + "You must be on the ground!"); return false;}
             Location loc = p.getLocation();
             int travel_distance = 15;
-            Vector dir = loc.getDirection();
+
+
+        Vector dir = loc.getDirection();
             loc.getWorld().playSound(loc.clone().add(new Vector(0, 0.4, 0)), Sound.BLOCK_FIRE_EXTINGUISH, 0.8f, 0.5f);
             RayTrace rayTrace = new RayTrace(new Vector(loc.getX(), loc.getY() - 1, loc.getZ()), new Vector(dir.getX(), 0, dir.getZ()));
             RayTrace rayTrace1 = new RayTrace(new Vector(loc.getX(), loc.getY() - 1, loc.getZ()), VectorUtils.rotateVector(new Vector(dir.getX(), 0, dir.getZ()), 262, 0));
             RayTrace rayTrace2 = new RayTrace(new Vector(loc.getX(), loc.getY() - 1, loc.getZ()), VectorUtils.rotateVector(new Vector(dir.getX(), 0, dir.getZ()), 278, 0));
             ArrayList<Vector> positions = rayTrace.traverse(travel_distance, 1);
+             positions.addAll(rayTrace1.traverse(travel_distance - 2, 1));
+             positions.addAll(rayTrace2.traverse(travel_distance - 2, 1));
+
+        //GameBlocks.add(new MHABlock())
+
+
+
+
+
             ArrayList<DecayBlock> decayblocks = new ArrayList<>();
             positions.addAll(rayTrace1.traverse(travel_distance - 2, 1));
             positions.addAll(rayTrace2.traverse(travel_distance - 2, 1));
             for (Vector v : positions) {
                 Location position = v.toLocation(p.getWorld());
                 Block block = p.getWorld().getBlockAt(position);
-                if (block.getType() != Material.DEAD_BRAIN_CORAL_BLOCK)
-                    if (block.getType() != Material.AIR) {
-                        decayblocks.add(new DecayBlock(block));
+                if(block.getType() != Material.CRIMSON_HYPHAE && block.getType() != Material.WARPED_HYPHAE)
+                if (block.getType() != Material.AIR) {
+                        decayblocks.add(new DecayBlock(block,p));
                     }
             }
            startDecay(p,decayblocks);
@@ -82,8 +94,8 @@ public class Decay extends QuirkCastManager {
     }
     public boolean CastAbility3(Player p) {
         p.getWorld().playSound(p.getLocation(),Sound.ENTITY_VEX_CHARGE,2,2);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,60,3));
-        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,60,3));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,playerdata.get(p.getUniqueId()).getQuirk().getAbility3Effect(),3));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,playerdata.get(p.getUniqueId()).getQuirk().getAbility3Effect(),3));
 
         return true;
     }
@@ -123,10 +135,11 @@ public class Decay extends QuirkCastManager {
     }
 
     public void decay(Entity e,int decaytimer,int wither_amplifier){
-        if(e instanceof Player)
-            ((LivingEntity)e).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,decaytimer,5));
-        ((LivingEntity)e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW,decaytimer,1));
-        ((LivingEntity)e).addPotionEffect(new PotionEffect(PotionEffectType.WITHER,decaytimer,wither_amplifier));
+        if(e instanceof Player) {
+            ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, decaytimer, 5));
+            ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, decaytimer, 1));
+            ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, decaytimer, wither_amplifier));
+        }
     }
 
     public void playSound(Location loc){
@@ -138,10 +151,13 @@ class DecayBlock{
     private Material original_type;
     private Block block;
 
-    public DecayBlock(Block b){
+    public DecayBlock(Block b,Player p){
         block = b;
         original_type = b.getType();
-        b.setType(Material.DEAD_BRAIN_CORAL_BLOCK);
+        if(playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase("BETA"))
+            b.setType(Material.WARPED_HYPHAE);
+        if(playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase("ALPHA"))
+            b.setType(Material.CRIMSON_HYPHAE);
     }
 
     public Material getOriginal_type() {

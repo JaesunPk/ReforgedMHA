@@ -17,6 +17,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static hadences.reforgedmha.Arena.ArenaList;
 import static hadences.reforgedmha.PlayerManager.playerdata;
@@ -84,6 +85,14 @@ public final class ReforgedMHA extends JavaPlugin {
             this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".BLUESPAWN.Y", Double.valueOf(ArenaList.get(arena).getBlueSpawn().getY()));
             this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".BLUESPAWN.Z", Double.valueOf(ArenaList.get(arena).getBlueSpawn().getZ()));
 
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".REDOBJECTIVE.X", Double.valueOf(ArenaList.get(arena).getRedObjective().getX()));
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".REDOBJECTIVE.Y", Double.valueOf(ArenaList.get(arena).getRedObjective().getY()));
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".REDOBJECTIVE.Z", Double.valueOf(ArenaList.get(arena).getRedObjective().getZ()));
+
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".BLUEOBJECTIVE.X", Double.valueOf(ArenaList.get(arena).getBlueObjective().getX()));
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".BLUEOBJECTIVE.Y", Double.valueOf(ArenaList.get(arena).getBlueObjective().getY()));
+            this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".BLUEOBJECTIVE.Z", Double.valueOf(ArenaList.get(arena).getBlueObjective().getZ()));
+
             this.getConfig().set("Arenas." + ArenaList.get(arena).getName() + ".COMPLETE", Boolean.valueOf(ArenaList.get(arena).isFinalized()));
 
         }
@@ -96,14 +105,14 @@ public final class ReforgedMHA extends JavaPlugin {
         String Wins = "";
 
         // Plugin shutdown logic
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            Credit = playerdata.get(p.getUniqueId()).getCredit() + "";
-            Rank = playerdata.get(p.getUniqueId()).getRank();
-            Wins = playerdata.get(p.getUniqueId()).getWins() + "";
+        for(UUID p : playerdata.keySet()) {
+            Credit = playerdata.get(p).getCredit() + "";
+            Rank = playerdata.get(p).getRank();
+            Wins = playerdata.get(p).getWins() + "";
 
-            this.getConfig().set("Users." + p.getUniqueId() + ".RANK", Rank);
-            this.getConfig().set("Users." + p.getUniqueId() + ".WINS", Wins);
-            this.getConfig().set("Users." + p.getUniqueId() + ".CREDIT", Credit);
+            this.getConfig().set("Users." + p + ".RANK", Rank);
+            this.getConfig().set("Users." + p + ".WINS", Wins);
+            this.getConfig().set("Users." + p + ".CREDIT", Credit);
             this.saveConfig();
         }
     }
@@ -113,6 +122,8 @@ public final class ReforgedMHA extends JavaPlugin {
         Location LobbySpawn;
         Location RedSpawn;
         Location BlueSpawn;
+        Location RedObjective;
+        Location BlueObjective;
         boolean Finalized;
         try {
             if (!this.getConfig().getConfigurationSection("Arenas").getKeys(false).isEmpty()){
@@ -122,9 +133,12 @@ public final class ReforgedMHA extends JavaPlugin {
                     LobbySpawn = new Location(Bukkit.getServer().getWorlds().get(0),(Double) this.getConfig().get("Arenas." + key + ".LOBBYSPAWN.X"),(Double) this.getConfig().get("Arenas." + key + ".LOBBYSPAWN.Y"),(Double) this.getConfig().get("Arenas." + key + ".LOBBYSPAWN.Z"));
                     RedSpawn = new Location(Bukkit.getServer().getWorlds().get(0),(Double) this.getConfig().get("Arenas." + key + ".REDSPAWN.X"),(Double) this.getConfig().get("Arenas." + key + ".REDSPAWN.Y"),(Double) this.getConfig().get("Arenas." + key + ".REDSPAWN.Z"));
                     BlueSpawn = new Location(Bukkit.getServer().getWorlds().get(0),(Double) this.getConfig().get("Arenas." + key + ".BLUESPAWN.X"),(Double) this.getConfig().get("Arenas." + key + ".BLUESPAWN.Y"),(Double) this.getConfig().get("Arenas." + key + ".BLUESPAWN.Z"));
+                    RedObjective = new Location(Bukkit.getServer().getWorlds().get(0),(Double) this.getConfig().get("Arenas." + key + ".REDOBJECTIVE.X"),(Double) this.getConfig().get("Arenas." + key + ".REDOBJECTIVE.Y"),(Double) this.getConfig().get("Arenas." + key + ".REDOBJECTIVE.Z"));
+                    BlueObjective = new Location(Bukkit.getServer().getWorlds().get(0),(Double) this.getConfig().get("Arenas." + key + ".BLUEOBJECTIVE.X"),(Double) this.getConfig().get("Arenas." + key + ".BLUEOBJECTIVE.Y"),(Double) this.getConfig().get("Arenas." + key + ".BLUEOBJECTIVE.Z"));
+
                     Finalized = (Boolean) this.getConfig().get("Arenas." + key + ".COMPLETE");
 
-                    ArenaList.put(Name,new Arena(Name,LobbySpawn,RedSpawn,BlueSpawn,Finalized));
+                    ArenaList.put(Name,new Arena(Name,LobbySpawn,RedSpawn,BlueSpawn,Finalized,BlueObjective,RedObjective));
                 }
             }
         }catch (Exception e){
@@ -175,9 +189,9 @@ public final class ReforgedMHA extends JavaPlugin {
                     Ability1Stamina = (Double) this.getConfig().get("Quirks."+key+".Ability1Stamina");
                     Ability2Stamina = (Double) this.getConfig().get("Quirks."+key+".Ability2Stamina");
                     Ability3Stamina = (Double) this.getConfig().get("Quirks."+key+".Ability3Stamina");
-                    Ability1Info = this.getConfig().get("Quirks."+key+".Ability1Info").toString();
-                    Ability2Info = this.getConfig().get("Quirks."+key+".Ability2Info").toString();
-                    Ability3Info = this.getConfig().get("Quirks."+key+".Ability3Info").toString();
+                    Ability1Info = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability1Info").toString());
+                    Ability2Info = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability2Info").toString());
+                    Ability3Info = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability3Info").toString());
                     Ability1Comment = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability1Comment").toString());
                     Ability2Comment = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability2Comment").toString());
                     Ability3Comment = ChatColor.translateAlternateColorCodes('&',this.getConfig().get("Quirks."+key+".Ability3Comment").toString());

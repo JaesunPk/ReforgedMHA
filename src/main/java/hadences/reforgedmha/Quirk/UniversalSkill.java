@@ -18,11 +18,11 @@ public class UniversalSkill {
     Vector vector;
     RaycastUtils raycastUtils;
 
-    public void Punch(Player p,double dmg, int immobilizeSeconds){
-        location = raycastUtils.StartRaycast(p,3,1);
+    public void Punch(Player p,double dmg, int immobilizeticks){
+        location = raycastUtils.StartRaycast(p,3.5,1,false);
         Damage.damageList(p, (ArrayList<Entity>) location.getNearbyEntities(1,1,1),dmg);
         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT,2,1);
-        if(checkimmobilized(immobilizeSeconds)){ Damage.immobilizeList(p, (ArrayList<Entity>) location.getNearbyEntities(1,1,1),immobilizeSeconds);}
+        if(checkimmobilized(immobilizeticks)){ Damage.immobilizeList(p, (ArrayList<Entity>) location.getNearbyEntities(1,1,1),immobilizeticks);}
             //draw effect
         location = p.getEyeLocation();
         for (double theta = 0; theta < 2 * Math.PI; theta += Math.PI / 25) {

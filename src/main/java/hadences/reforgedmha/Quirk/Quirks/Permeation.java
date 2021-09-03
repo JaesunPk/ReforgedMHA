@@ -33,7 +33,7 @@ public class Permeation extends QuirkCastManager {
     }
 
     public boolean StartPhase(Player p){
-        if(!isOnGround(p)) return false;
+        //if(!isOnGround(p)) return false;
         if(!isPhasingBlock(p)) {
             p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.0f,2.0f);
             p.sendMessage(ChatColor.RED + "You are not facing a block!");
@@ -86,7 +86,7 @@ public class Permeation extends QuirkCastManager {
     }
 
     public static boolean isPhasingBlock(Player p){
-        Location endpoint = RaycastUtils.StartRaycast(p,3,0.2);
+        Location endpoint = RaycastUtils.StartRaycast(p,3,0.2,false);
         if(endpoint.getBlock().isSolid() && endpoint.getBlock().getType() != Material.BARRIER){
             return true;
         }

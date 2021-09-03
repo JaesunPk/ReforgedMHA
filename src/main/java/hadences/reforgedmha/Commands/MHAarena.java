@@ -81,6 +81,19 @@ public class MHAarena implements CommandExecutor {
                     p.sendMessage(ChatColor.BLACK + "" + ChatColor.BOLD + "[" + ChatColor.YELLOW + "" + ChatColor.BOLD + "ProjectMHA" + ChatColor.BLACK + "" + ChatColor.BOLD + "] "+ ChatColor.GREEN + "Blue Spawn Set for Arena " + args[1]);
                     return true;
                 }
+                // /MHAarena get <name> setBlueObjectiveSpawn
+                if(args[2].equalsIgnoreCase("setBlueObjectiveSpawn")){
+                    ArenaList.get(args[1]).setBlueObjective(p.getLocation());
+                    p.sendMessage(ChatColor.BLACK + "" + ChatColor.BOLD + "[" + ChatColor.YELLOW + "" + ChatColor.BOLD + "ProjectMHA" + ChatColor.BLACK + "" + ChatColor.BOLD + "] "+ ChatColor.GREEN + "Blue Objective Set for Arena " + args[1]);
+                    return true;
+                }
+                // /MHAarena get <name> setRedObjectiveSpawn
+                if(args[2].equalsIgnoreCase("setRedObjectiveSpawn")){
+                    ArenaList.get(args[1]).setRedObjective(p.getLocation());
+                    p.sendMessage(ChatColor.BLACK + "" + ChatColor.BOLD + "[" + ChatColor.YELLOW + "" + ChatColor.BOLD + "ProjectMHA" + ChatColor.BLACK + "" + ChatColor.BOLD + "] "+ ChatColor.GREEN + "Red Objective Set for Arena " + args[1]);
+                    return true;
+                }
+
                 // /MHAarena get <name> finalize
                 if(args[2].equalsIgnoreCase("finalize")){
                     if(ArenaList.get(args[1]).getBlueSpawn() == null || ArenaList.get(args[1]).getRedSpawn() == null || ArenaList.get(args[1]).getLobbySpawn() == null ){
