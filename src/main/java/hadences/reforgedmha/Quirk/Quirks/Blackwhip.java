@@ -25,7 +25,7 @@ public class Blackwhip extends QuirkCastManager {
     public boolean CastAbility1(Player p){
         loc = p.getLocation();
         double hitbox = 0.5;
-        endpoint = RaycastUtils.StartRaycast(p,20,hitbox);
+        endpoint = RaycastUtils.StartRaycast(p,20,hitbox,false);
         playSound(p);
         double length = RaycastUtils.calculateDistance(loc,endpoint);
         StartBlackwhip(p,length,true,playerdata.get(p.getUniqueId()).getQuirk().getAbility1Dmg(),0,0,endpoint,hitbox);
@@ -36,13 +36,13 @@ public class Blackwhip extends QuirkCastManager {
                 BlackwhipAbilityEntity(e,p);
                 return true;
             }
-        }        return false;
+        }        return true;
     }
     public boolean CastAbility2(Player p){
         loc = p.getLocation();
         playSound(p);
         double hitbox = 1;
-        endpoint = RaycastUtils.StartRaycast(p,6,hitbox);
+        endpoint = RaycastUtils.StartRaycast(p,6,hitbox,false);
         double length = RaycastUtils.calculateDistance(loc,endpoint);
         StartBlackwhip(p,length,true,playerdata.get(p.getUniqueId()).getQuirk().getAbility2Dmg(),0,0,endpoint,hitbox);
         StartBlackwhip(p,length,true,playerdata.get(p.getUniqueId()).getQuirk().getAbility2Dmg(),15,0,endpoint,hitbox);
@@ -52,7 +52,7 @@ public class Blackwhip extends QuirkCastManager {
     public boolean CastAbility3(Player p){
         loc = p.getLocation();
         double hitbox = 0.2;
-        endpoint = RaycastUtils.StartRaycast(p,15,hitbox);
+        endpoint = RaycastUtils.StartRaycast(p,15,hitbox,false);
         double length = RaycastUtils.calculateDistance(loc,endpoint);
         if(endpoint.getBlock().isSolid() && endpoint.getBlock().getType() != Material.BARRIER) {
             playSound(p);

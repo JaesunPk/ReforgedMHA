@@ -10,7 +10,8 @@ public class Arena {
     private Location RedSpawn;
     private Location BlueSpawn;
     private Location LobbySpawn;
-
+    private Location RedObjective;
+    private Location BlueObjective;
     private String Name;
     private boolean Finalized;
 
@@ -20,15 +21,35 @@ public class Arena {
         BlueSpawn = null;
         LobbySpawn = null;
         Finalized = false;
+        RedObjective = null;
+        BlueObjective = null;
     }
 
-    public Arena(String name, Location LSpawn, Location Rspawn, Location Bspawn, boolean finalized){
+    public Arena(String name, Location LSpawn, Location Rspawn, Location Bspawn, boolean finalized, Location BO, Location RO){
         Name = name;
         RedSpawn = Rspawn;
         BlueSpawn = Bspawn;
         LobbySpawn = LSpawn;
         Finalized = finalized;
+        RedObjective = RO;
+        BlueObjective = BO;
 
+    }
+
+    public Location getRedObjective() {
+        return RedObjective;
+    }
+
+    public void setRedObjective(Location redObjective) {
+        RedObjective = redObjective;
+    }
+
+    public Location getBlueObjective() {
+        return BlueObjective;
+    }
+
+    public void setBlueObjective(Location blueObjective) {
+        BlueObjective = blueObjective;
     }
 
     public void setFinalized(boolean finalized) {

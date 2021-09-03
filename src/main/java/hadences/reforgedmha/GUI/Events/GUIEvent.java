@@ -27,7 +27,7 @@ import static hadences.reforgedmha.Quirk.Quirk.quirklist;
 import static org.bukkit.ChatColor.*;
 
 public class GUIEvent implements Listener {
-    private GameManager console;
+    public static GameManager console;
     ReforgedMHA plugin = ReforgedMHA.getPlugin(ReforgedMHA.class);
     public static HashMap<String, Listener> QuirkEvents = new HashMap<>();
 
@@ -67,8 +67,24 @@ public class GUIEvent implements Listener {
             //gamemode Menu{
             if (e.getSlot() == 0) {
                 //Button TeamvTeam
-                sendTitleToAll(ChatColor.RED + "TEAM" + ChatColor.AQUA + " vs " + ChatColor.BLUE + "TEAM");
+                sendTitleToAll(ChatColor.RED + "Team" + ChatColor.AQUA + " vs " + ChatColor.BLUE + "Team");
                 console.setGamemode("TvT");
+                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.0F);
+                p.getWorld().playSound(console.getArena().getLobbySpawn(),Sound.ENTITY_ENDER_DRAGON_GROWL,2,1);
+                p.closeInventory();
+            }
+            if (e.getSlot() == 1) {
+                //Button TeamvTeam
+                sendTitleToAll(ChatColor.AQUA + "Infiltrate" + ChatColor.DARK_AQUA + " -/- " + ChatColor.AQUA + "Defend");
+                console.setGamemode("ID");
+                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.0F);
+                p.getWorld().playSound(console.getArena().getLobbySpawn(),Sound.ENTITY_ENDER_DRAGON_GROWL,2,1);
+                p.closeInventory();
+            }
+            if (e.getSlot() == 2) {
+                //Button FFA
+                sendTitleToAll(ChatColor.LIGHT_PURPLE + "Free For All");
+                console.setGamemode("FFA");
                 p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.0F);
                 p.getWorld().playSound(console.getArena().getLobbySpawn(),Sound.ENTITY_ENDER_DRAGON_GROWL,2,1);
                 p.closeInventory();
@@ -173,6 +189,7 @@ public class GUIEvent implements Listener {
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getLocalizedName().contains("close")){
+                    p.getInventory().setItem(7,createClassInfo(p));
                     p.closeInventory();
                 }
                 if(!e.getCurrentItem().getItemMeta().getLocalizedName().contains("close")){
@@ -190,9 +207,9 @@ public class GUIEvent implements Listener {
                 randomQuirk(p);
                 return;
             }
-            p.sendMessage(Quirk.getQuirk(q.getName()).getName());
             playerdata.get(p.getUniqueId()).setQuirk(Quirk.getQuirk(q.getName()));
             p.sendTitle(ChatColor.WHITE + "[" + playerdata.get(p.getUniqueId()).getQuirk().getDisplayName() + ChatColor.WHITE + "]",ChatColor.GOLD + "Selected Quirk");
+            p.getInventory().setItem(7,createClassInfo(p));
             p.closeInventory();
         }
     }
@@ -266,7 +283,7 @@ public class GUIEvent implements Listener {
     }
 
     public static String hearts(double hearts){
-        return ChatColor.RED + "❤ " + (int) hearts;
+        return ChatColor.RED + "❤ " + (double) hearts;
     }
 
     public static String stamina(double stamina){
@@ -298,6 +315,7 @@ public class GUIEvent implements Listener {
     @EventHandler
     public void PlayerLeaveEvent(PlayerQuitEvent e){
         Player p = e.getPlayer();
+        ReforgedMHA.getPlugin(ReforgedMHA.class).updateConfig();
         if(!playerdata.get(p.getUniqueId()).isInGame()) {
             plugin.board.updatePlayerDataBoard(plugin.board.getBoard()); }
         else{

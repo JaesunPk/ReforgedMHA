@@ -2,6 +2,7 @@ package hadences.reforgedmha.Quirk.Quirks;
 
 import hadences.reforgedmha.Quirk.Damage;
 import hadences.reforgedmha.Quirk.QuirkCastManager;
+import hadences.reforgedmha.ReforgedMHA;
 import hadences.reforgedmha.Utility.RayTrace;
 import hadences.reforgedmha.Utility.VectorUtils;
 import org.bukkit.*;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.Field;
@@ -47,8 +49,10 @@ public class Cremation extends QuirkCastManager {
             } catch (Exception exception) {
 
             }
+            fw.setMetadata(playerdata.get(p.getUniqueId()).getTeam(), new FixedMetadataValue(ReforgedMHA.getPlugin(ReforgedMHA.class), true));
             fw.setFireworkMeta(fm);
-        }
+
+            }
 
         }
         return true;
@@ -60,7 +64,6 @@ public class Cremation extends QuirkCastManager {
 
         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 2, 1);
         for(int i = 0; i < 6; i++) {
-            loc.add(loc.getDirection());
             for (double theta = 0; theta <= Math.PI; theta += Math.PI / 14) {
                 pos = new Vector(Math.sin(theta) * 3, 0, Math.cos(theta) * 3);
                 pos = VectorUtils.rotateVector(pos, 270, 0);
@@ -73,6 +76,7 @@ public class Cremation extends QuirkCastManager {
 
                 Damage.Burn(p, (ArrayList<Entity>) loc.clone().add(pos).getNearbyEntities(1,1,1),playerdata.get(p.getUniqueId()).getQuirk().getAbility2Effect());
             }
+            loc.add(loc.getDirection());
         }
         return true;
     }

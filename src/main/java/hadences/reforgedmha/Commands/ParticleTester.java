@@ -1,25 +1,16 @@
 package hadences.reforgedmha.Commands;
 
-import hadences.reforgedmha.ReforgedMHA;
 import hadences.reforgedmha.Utility.RayTrace;
-import hadences.reforgedmha.Utility.RaycastUtils;
 import hadences.reforgedmha.Utility.VectorUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ParticleTester implements CommandExecutor {
     RayTrace rayTrace;
@@ -39,55 +30,31 @@ public class ParticleTester implements CommandExecutor {
     }
 
     public void playEffect(Player p) {
-        Location loc = p.getLocation();
-        loc.add(loc.getDirection().multiply(2));
-        ArrayList<Block> spikes = new ArrayList<>();
-        ArrayList<Location> points = getPoints(p);
-        for(int i =0; i<3; i++) {
-            new BukkitRunnable() {
-                Location start_point = points.get((int) (Math.random() * points.size()));
-                Location ending_point = RaycastUtils.StartRaycast(p, 22, 0.1);
-                int tick = 0;
+        Location location = p.getEyeLocation();
+        Vector vector;
+        Vector vector1;
+        Vector vector2;
+        //double y = -0.35;
+        double y = 0;
 
-                @Override
-                public void run() {
-                    if (ending_point.distance(start_point) < 2) {
-                        this.cancel();
-                    }
-                    Vector v = ending_point.toVector().subtract(start_point.toVector());
-                    start_point.add(v.normalize());
-                    if (start_point.getBlock().getType() == Material.AIR) {
-                        spikes.add(start_point.getBlock());
-                        start_point.getBlock().setType(Material.DEEPSLATE);
-                    }
-                    tick++;
-                }
-            }.runTaskTimer(ReforgedMHA.getPlugin(ReforgedMHA.class), 0, 0);
+        for (double theta = 0; theta < 2 * Math.PI; theta += Math.PI / 25) {
+            vector = VectorUtils.rotateVector(VectorUtils.rotateVector(new Vector(0.8 * Math.sin(theta), 0.5, 0.8 * Math.cos(theta)), -90, 90), p.getLocation().getYaw(), p.getLocation().getPitch());
+            location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(vector), 5, 0.02, 0.02, 0.02, 0.02, new Particle.DustOptions(Color.fromRGB(245, 238, 78), 1.2f));
+
+            vector = VectorUtils.rotateVector(VectorUtils.rotateVector(new Vector(0.8 * Math.sin(theta), 1.5, 0.8 * Math.cos(theta)), -90, 90), p.getLocation().getYaw(), p.getLocation().getPitch());
+            location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(vector), 5, 0.02, 0.02, 0.02, 0.02, new Particle.DustOptions(Color.fromRGB(245, 238, 78), 1.2f));
         }
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                for(Block b : spikes){
-                    b.setType(Material.AIR);
-                }
-            }
-        }.runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),120);
+        for(double time = 0; time < 4.72; time+=0.1){
+            vector = VectorUtils.rotateVector(new Vector(time,y,Math.cos(2*time)),location.getYaw(),location.getPitch());
+            vector1 = VectorUtils.rotateVector(new Vector(time,y,Math.cos(2*time)),location.getYaw(),location.getPitch());
+            vector2 = VectorUtils.rotateVector(new Vector(time,y,0),location.getYaw(),location.getPitch());
+
+            location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(vector), 5, 0.02, 0.02, 0.02, 0.02, new Particle.DustOptions(Color.fromRGB(245, 238, 78), 1.2f));
+            location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(vector1), 5, 0.02, 0.02, 0.02, 0.02, new Particle.DustOptions(Color.fromRGB(245, 238, 78), 1.2f));
+            location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(vector2), 5, 0.02, 0.02, 0.02, 0.02, new Particle.DustOptions(Color.fromRGB(250, 255, 153), 1.2f));
+        }
     }
 
-    public ArrayList<Location> getPoints(Player p){
-        Vector pos;
-        Location loc = p.getEyeLocation();
-        ArrayList<Location> points = new ArrayList<>();
-        for(double theta = 0; theta < Math.PI*2; theta += Math.PI/6){
-            pos = new Vector(Math.sin(theta) * 5, 0, Math.cos(theta) * 5);
-            pos = VectorUtils.rotateVector(pos, 270, 90);
-            pos = VectorUtils.rotateVector(pos, loc.getYaw(), loc.getPitch());
-            if(loc.clone().add(pos).getY() > p.getLocation().getY() && loc.clone().add(pos).getY() < p.getEyeLocation().getY())
-                points.add(loc.clone().add(pos));
-        }
-
-        return points;
-    }
 
 }
 

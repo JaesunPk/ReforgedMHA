@@ -1,19 +1,21 @@
 package hadences.reforgedmha;
 
-import hadences.reforgedmha.GUI.GamemodeMenu;
 import hadences.reforgedmha.Quirk.Quirk;
-import hadences.reforgedmha.Quirk.Quirks.Engine;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,10 +26,8 @@ import java.util.Collection;
 import java.util.List;
 
 import static hadences.reforgedmha.Arena.ArenaList;
-import static hadences.reforgedmha.GUI.Events.GUIEvent.QuirkEvents;
-import static hadences.reforgedmha.GUI.Events.GUIEvent.createClassInfo;
+import static hadences.reforgedmha.GUI.Events.GUIEvent.*;
 import static hadences.reforgedmha.PlayerManager.playerdata;
-import static hadences.reforgedmha.Quirk.Quirk.quirklist;
 import static org.bukkit.Bukkit.getServer;
 
 public class GameManager {
@@ -56,6 +56,10 @@ public class GameManager {
     private int startingStamina;
     private int startingHealth;
 
+    private boolean GameInitialize;
+    private IronGolem BlueObject;
+    private IronGolem RedObject;
+
     public GameManager(String mapID, int minutes, int seconds, int startingHealth, int startingStamina){
         PlayersNeeded = 1;
         PlayerList = new ArrayList<>();
@@ -74,6 +78,7 @@ public class GameManager {
         this.startingHealth = startingHealth;
         this.startingStamina = startingStamina;
         Gamemode = "None";
+        GameInitialize = false;
     }
 
     public void addPlayersToGameList(Collection<? extends Player> playersList){
@@ -249,9 +254,127 @@ public class GameManager {
                         }
 
                     }
+                    //Infiltrate/Defend Mode
+                    if(Gamemode.equalsIgnoreCase("ID")) {
+                        if(!GameInitialize){
+                            IDGameInitial();
+                            GameInitialize = true;
+                        }
+
+
+                        if (IDGame()) {
+                            this.cancel();
+                            Winner(getWinnerID());
+                            RedObject.damage(999999);
+                            BlueObject.damage(999999);
+
+                        }
+
+
+                    }
+                    if(Gamemode.equalsIgnoreCase("FFA")) {
+                        if (FFAGame()) {
+                            this.cancel();
+                            Winner("null");
+                        }
+
+                        if(RedTeamAlive == 0 && BlueTeamAlive == 0){
+                            this.cancel();
+                            Winner("DRAW");
+                        }
+
+                    }
+
                 }
             }
         }.runTaskTimer(plugin,0,20L);
+    }
+
+
+    public boolean FFAGame(){
+        //update alive players
+        updateAlivePlayers(board);
+        //update game scoreboard
+        updateGameScoreboard(plugin.board);
+        //update timer
+        updateTimer("-");
+        //check timer
+        checkTimerTVT();
+
+        //check who wins
+        if(checkifWinnerTVT(RedTeamAlive,BlueTeamAlive)){
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean IDGame(){
+        //update alive players
+        updateAlivePlayers(board);
+        //update game scoreboard
+        updateGameScoreboard(plugin.board);
+        //update timer
+        updateTimer("-");
+        checkTimerID();
+        //check who wins
+        if(checkifWinnerID()){
+            return true;
+        }
+        return false;
+    }
+
+    public void checkTimerID() {
+        if (minutes == 0 && seconds == 30) {
+            sendMessageinGamePlayers(ChatColor.GREEN + "30 seconds left!");
+            playsoundtoAll(Sound.ENTITY_WITHER_BREAK_BLOCK,1.0f);
+            TeleportToStalemate(getPlayerList(), MapID);
+        } else if (minutes == 0 && seconds <= 5 && seconds != 0) {
+            sendMessageinGamePlayers(ChatColor.GREEN + String.valueOf(seconds) + " seconds left!");
+        } else if (minutes == 0 && seconds == 0) {
+            playsoundtoAll(Sound.ENTITY_ENDER_DRAGON_GROWL,1.0f);
+            sendMessageinGamePlayers(ChatColor.GREEN + "Force End!");
+
+            if(BlueObject.getHealth() > RedObject.getHealth()){
+                RedObject.damage(99999);
+            }else if(RedObject.getHealth() > BlueObject.getHealth()){
+                BlueObject.damage(99999);
+            }else{
+                RedObject.damage(99999);
+                BlueObject.damage(99999);
+            }
+
+        }
+    }
+
+    public String getWinnerID(){
+        if(RedObject.getHealth() == 0 && BlueObject.getHealth() ==0){
+            return "DRAW";
+        }else if(RedObject.getHealth() <= 0 && BlueObject.getHealth() > 0){
+            return "BETA";
+        }else if(BlueObject.getHealth() <= 0 && RedObject.getHealth() > 0){
+            return "ALPHA";
+        }
+        return "null";
+    }
+
+    public void IDGameInitial(){
+        Location RedObjective = ArenaList.get(MapID).getRedObjective();
+        Location BlueObjective = ArenaList.get(MapID).getBlueObjective();
+        BlueObject = (IronGolem) BlueObjective.getWorld().spawnEntity(BlueObjective, EntityType.IRON_GOLEM);
+        RedObject = (IronGolem) RedObjective.getWorld().spawnEntity(RedObjective, EntityType.IRON_GOLEM);
+
+        BlueObject.setMaxHealth((Integer) plugin.getConfig().get("Game.Settings.IronGolemHealth"));
+        BlueObject.setHealth((Integer) plugin.getConfig().get("Game.Settings.IronGolemHealth"));
+        RedObject.setMaxHealth((Integer) plugin.getConfig().get("Game.Settings.IronGolemHealth"));
+        RedObject.setHealth((Integer) plugin.getConfig().get("Game.Settings.IronGolemHealth"));
+
+        BlueObject.setAI(false);
+        RedObject.setAI(false);
+        BlueObject.setMetadata( "defendBlue",new FixedMetadataValue(ReforgedMHA.getPlugin(ReforgedMHA.class), true));
+        RedObject.setMetadata( "defendRed",new FixedMetadataValue(ReforgedMHA.getPlugin(ReforgedMHA.class), true));
+
+
     }
 
     public boolean TvTGame(){
@@ -265,13 +388,18 @@ public class GameManager {
         checkTimerTVT();
 
         //check who wins
-        if(checkifWinner(RedTeamAlive,BlueTeamAlive)){
+        if(checkifWinnerTVT(RedTeamAlive,BlueTeamAlive)){
             return true;
         }
         return false;
     }
 
     public void registerEvents(){
+        InfiltrateDefendEvents infiltrateDefendEvents = new InfiltrateDefendEvents();
+        if(Gamemode.equalsIgnoreCase("ID")) {
+            getServer().getPluginManager().registerEvents(infiltrateDefendEvents, ReforgedMHA.getPlugin(ReforgedMHA.class));
+            QuirkEvents.put("ID", infiltrateDefendEvents);
+        }
         for(Player p : getPlayerList()){
             if(playerdata.get(p.getUniqueId()).getQuirk().getQuirkCastManager().isPassive()){
                 if(!QuirkEvents.containsKey(playerdata.get(p.getUniqueId()).getQuirk().getName())) {
@@ -310,6 +438,7 @@ public class GameManager {
             playerdata.get(p.getUniqueId()).setStamina(0);
 
             playerdata.get(p.getUniqueId()).setAllowSkill(false);
+            playerdata.get(p.getUniqueId()).setQuirkinState(false);
 
             p.getInventory().setItem(8, MainEvent.getMenuItem());
             p.setGameMode(GameMode.ADVENTURE);
@@ -326,7 +455,17 @@ public class GameManager {
 
     }
 
-    public boolean checkifWinner(int RedTeamAlive, int BlueTeamAlive){
+    public boolean checkifWinnerID(){
+        if(RedObject.getHealth() <= 0 || RedObject == null){
+            return true;
+        }else if(BlueObject.getHealth() <= 0 || BlueObject == null){
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkifWinnerTVT(int RedTeamAlive, int BlueTeamAlive){
         if(RedTeamAlive <= 0 && BlueTeamAlive <=0){
             return true;
         }else if(RedTeamAlive <= 0 && BlueTeamAlive > 0){
@@ -336,22 +475,24 @@ public class GameManager {
 
     public void Winner(String win){
         String winner = win;
-
-        if(RedTeamAlive <= 0 && BlueTeamAlive <=0){
-            winner = "DRAW";
-        }else if(RedTeamAlive <= 0 && BlueTeamAlive > 0){
-            winner = "BETA";
-        }else if(RedTeamAlive > 0 && BlueTeamAlive <= 0){
-            winner = "ALPHA";
+        if(winner.equalsIgnoreCase("null")) {
+            if (RedTeamAlive <= 0 && BlueTeamAlive <= 0) {
+                winner = "DRAW";
+            } else if (RedTeamAlive <= 0 && BlueTeamAlive > 0) {
+                winner = "BETA";
+            } else if (RedTeamAlive > 0 && BlueTeamAlive <= 0) {
+                winner = "ALPHA";
+            }
         }
-
         if(winner.equalsIgnoreCase("DRAW")){
             sendTitletoAll(ChatColor.GOLD + "" + ChatColor.BOLD + "NO CONTEST",ChatColor.AQUA + "No Winner!");
         }else if(winner.equalsIgnoreCase("BETA")){
             grantWins(winner);
+            grantCredit(winner);
             sendTitletoAll(ChatColor.BLUE + "" + ChatColor.BOLD + "BLUE WINS",ChatColor.GREEN + "Congrats!");
         }else if(winner.equalsIgnoreCase("ALPHA")){
             grantWins(winner);
+            grantCredit(winner);
             sendTitletoAll(ChatColor.RED + "" + ChatColor.BOLD + "RED WINS",ChatColor.GREEN + "Congrats!");
         }
 
@@ -399,6 +540,15 @@ public class GameManager {
         for(Player p : getPlayerList()){
             if(playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase(winner)){
                 playerdata.get(p.getUniqueId()).setWins(playerdata.get(p.getUniqueId()).getWins() + 1);
+                plugin.board.updatePlayerDataBoard(board);
+            }
+        }
+    }
+
+    public void grantCredit(String winner){
+        for(Player p : getPlayerList()){
+            if(playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase(winner)){
+                playerdata.get(p.getUniqueId()).setCredit(playerdata.get(p.getUniqueId()).getCredit() + 1);
                 plugin.board.updatePlayerDataBoard(board);
             }
         }
@@ -579,6 +729,7 @@ public class GameManager {
             p.setHealth(startingHealth);
             p.setFoodLevel(20);
             p.setGameMode(GameMode.ADVENTURE);
+            playerdata.get(p.getUniqueId()).getCombo().clear();
 
             playerdata.get(p.getUniqueId()).setAllowSkill(true);
             playerdata.get(p.getUniqueId()).setQuirkStorage(0);
@@ -653,5 +804,79 @@ public class GameManager {
 
 
 }
+
+class InfiltrateDefendEvents implements Listener{
+    @EventHandler
+    public void IronGolemDamageEvent(EntityDamageEvent e){
+        if(e.getEntity() instanceof  IronGolem){
+            IronGolem point = (IronGolem) e.getEntity();
+            String team = "";
+            if(point.hasMetadata("defendRed") || point.hasMetadata("defendBlue")) {
+
+                if(point.hasMetadata("defendRed"))
+                    team = ChatColor.RED + "" + ChatColor.BOLD + "<ALPHA> ";
+                if(point.hasMetadata("defendBlue"))
+                    team = ChatColor.BLUE + "" + ChatColor.BOLD + "<BETA> ";
+                point.setCustomName(team + ChatColor.RED +"" + "❤ " + ChatColor.GREEN + (int) point.getHealth() + ChatColor.WHITE + " [" + ChatColor.GREEN + "DEFEND" + ChatColor.WHITE + "]");
+            }
+        }
+    }
+
+    @EventHandler
+    public void IronGolemDeathEvent(EntityDeathEvent e){
+        if(e.getEntity() instanceof IronGolem){
+            IronGolem point = (IronGolem) e.getEntity();
+            if(point.hasMetadata("defendRed") || point.hasMetadata("defendBlue")) {
+                  point.setHealth(0);
+            }
+
+        }
+    }
+
+    @EventHandler
+    public void PlayerDeathEvent(PlayerDeathEvent e){
+        if(e.getEntity() instanceof Player){
+            Player p = e.getEntity();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase("BETA")) {
+                    p.teleport(console.getArena().getBlueSpawn());
+                    }else {
+                        p.teleport(console.getArena().getRedSpawn());
+                    }
+                    playerdata.get(p.getUniqueId()).setAlive(true);
+                    playerdata.get(p.getUniqueId()).setInGame(true);
+
+                    playerdata.get(p.getUniqueId()).setRestrictMovement(false);
+                    p.getInventory().setHeldItemSlot(2);
+                    p.getInventory().setItem(8, MainEvent.getMenuItem());
+                    p.setMaxHealth(console.getStartingHealth());
+                    p.setHealth(console.getStartingHealth());
+                    p.setFoodLevel(20);
+                    p.setGameMode(GameMode.ADVENTURE);
+
+                    playerdata.get(p.getUniqueId()).setAllowSkill(true);
+                    playerdata.get(p.getUniqueId()).setQuirkStorage(0);
+
+                    playerdata.get(p.getUniqueId()).setStamina(console.getStartingStamina());
+
+
+                    p.sendTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "[Respawned]","");
+                    p.playSound(p.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP,2,2);
+
+
+
+                }
+
+
+            }.runTaskLater(ReforgedMHA.getPlugin(ReforgedMHA.class),100);
+
+            }
+
+        }
+    }
+
+
 
 

@@ -6,8 +6,7 @@ import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 
-public class MHABlock {
-
+public class MHABlock{
     public static ArrayList<MHABlock> GameBlocks = new ArrayList<>();
 
     Material original_material;
@@ -21,6 +20,23 @@ public class MHABlock {
         block = b;
         quirk_block = type;
     }
+/*
+    public static boolean contains(Block b){
+        if(GameBlocks.contains(b))
+            return true;
+        return false;
+
+    }
+*/
+    public static int getGameBlock(Block b){
+        for(int i = 0; i < GameBlocks.size(); i++){
+            if(GameBlocks.get(i).getBlock() == b)
+                return i;
+        }
+        return 0;
+    }
+
+
 
     public Material getOriginal_material() {
         return original_material;

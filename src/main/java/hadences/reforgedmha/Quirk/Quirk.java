@@ -81,6 +81,9 @@ public class Quirk {
         if(name.equalsIgnoreCase("Hardening")) QuirkCastManager = new Hardening();
         //if(name.equalsIgnoreCase("Overhaul")) QuirkCastManager = new Overhaul();
         if(name.equalsIgnoreCase("Cremation")) QuirkCastManager = new Cremation();
+        if(name.equalsIgnoreCase("Rewind")) QuirkCastManager = new Rewind();
+        if(name.equalsIgnoreCase("Heal")) QuirkCastManager = new Heal();
+        if(name.equalsIgnoreCase("One For All")) QuirkCastManager = new OneForAll();
 
 
 

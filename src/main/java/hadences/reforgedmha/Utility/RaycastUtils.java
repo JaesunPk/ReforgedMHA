@@ -17,7 +17,7 @@ import static hadences.reforgedmha.PlayerManager.playerdata;
 public class RaycastUtils {
     static RayTrace rayTrace;
 
-    public static Location StartRaycast(Player player, double length, double hitbox) {
+    public static Location StartRaycast(Player player, double length, double hitbox,boolean includeTeam) {
 
         rayTrace = new RayTrace(player.getEyeLocation().toVector(), player.getEyeLocation().getDirection());
         ArrayList<Vector> positions = rayTrace.traverse(length, 0.01);
@@ -29,7 +29,7 @@ public class RaycastUtils {
 
 
             List<Entity> target = (List<Entity>) position.getNearbyEntities(hitbox, hitbox, hitbox);
-            target = cleanTargetList(player,target,false);
+            target = cleanTargetList(player,target,includeTeam);
             if (target.size() >= 1) {
                 return position;
             }
@@ -78,6 +78,13 @@ public class RaycastUtils {
                 }
 
             }
+            if(e.hasMetadata("defendBlue") && playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase("Beta")){
+                toRemove.add(e);
+            }else if(e.hasMetadata("defendRed") && playerdata.get(p.getUniqueId()).getTeam().equalsIgnoreCase("Alpha")){
+                toRemove.add(e);
+            }
+
+
         }
 
         target.removeAll(toRemove);

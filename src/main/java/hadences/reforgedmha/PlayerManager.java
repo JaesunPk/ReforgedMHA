@@ -3,6 +3,8 @@ package hadences.reforgedmha;
 import hadences.reforgedmha.Quirk.Quirk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ public class PlayerManager {
     private HashMap<Integer,String> pastinGameBoard = new HashMap<>();
     private HashMap<Integer,String> pastLobbyBoard = new HashMap<>();
 
+    private Player player;
     //Player Information
     private String name;
     private String rank;
@@ -43,6 +46,10 @@ public class PlayerManager {
     private boolean allowSkill;
     private Quirk quirk;
     private boolean restrictMovement;
+    private ArrayList<Character> Combo;
+    private boolean FallDamage;
+
+    private HashMap<String,BukkitTask> runnables = new HashMap<>();
 
     public PlayerManager(Player p, String rank, int credit, int wins){
         this.name = p.getName();
@@ -59,14 +66,65 @@ public class PlayerManager {
         isReady = false;
         team = "NONE";
         inLobby = false;
-
+        player = p;
         allowSkill = false;
         restrictMovement = false;
         QuirkTaggedEntities = new ArrayList<>();
         QuirkTaggedEntity = null;
         QuirkStorage = 0;
         QuirkinState = false;
+        Combo = new ArrayList<>();
+        FallDamage = true;
 
+    }
+
+    public static void FixQuirkSchedulers(Player p, String key,BukkitTask sched){
+        HashMap<String,BukkitTask> runnables = playerdata.get(p.getUniqueId()).getRunnables();
+        if(runnables.containsKey(key)){
+            runnables.get(key).cancel();
+            runnables.remove(key);
+        }
+        runnables.put(key,sched);
+    }
+
+    public boolean isFallDamage() {
+        return FallDamage;
+    }
+
+    public void setFallDamage(boolean fallDamage) {
+        FallDamage = fallDamage;
+    }
+
+    public ArrayList<Character> getCombo() {
+        return Combo;
+    }
+
+    public void setCombo(ArrayList<Character> combo) {
+        Combo = combo;
+    }
+
+    public static HashMap<UUID, PlayerManager> getPlayerdata() {
+        return playerdata;
+    }
+
+    public static void setPlayerdata(HashMap<UUID, PlayerManager> playerdata) {
+        PlayerManager.playerdata = playerdata;
+    }
+
+    public HashMap<String,BukkitTask> getRunnables() {
+        return runnables;
+    }
+
+    public void setRunnables(HashMap<String,BukkitTask> runnables) {
+        this.runnables = runnables;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public boolean isQuirkinState() {
@@ -244,6 +302,8 @@ public class PlayerManager {
     public void setPastPlayerDataBoard(HashMap<Integer, String> pastPlayerDataBoard) {
         this.pastPlayerDataBoard = pastPlayerDataBoard;
     }
+
+
 
     public HashMap<Integer, String> getPastinGameBoard() {
         return pastinGameBoard;

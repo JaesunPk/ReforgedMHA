@@ -29,7 +29,8 @@ public class Explosion extends QuirkCastManager {
     public boolean CastAbility1(Player p){
         loc = p.getEyeLocation().add(p.getEyeLocation().getDirection().normalize().multiply(2));
         double hitbox = 1.2;
-        Location endpoint = RaycastUtils.StartRaycast(p,5,hitbox);
+
+        Location endpoint = RaycastUtils.StartRaycast(p,5,hitbox,false);
         List<Entity> target = (List<Entity>) endpoint.getNearbyEntities(hitbox,hitbox,hitbox);
         if(target.contains(p)) target.remove(p);
         if(target.size() >=1) {
@@ -41,6 +42,8 @@ public class Explosion extends QuirkCastManager {
         Damage.damageList(p, (ArrayList<Entity>) endpoint.getNearbyEntities(hitbox,hitbox,hitbox),playerdata.get(p.getUniqueId()).getQuirk().getAbility1Dmg());
         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT,2,1);
         drawExplosion(loc,0.5);
+
+
         p.setVelocity(p.getEyeLocation().getDirection().normalize().multiply(-0.5));
 
         target.clear();

@@ -8,8 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -35,6 +34,9 @@ public class MainEvent implements Listener {
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent e){
         Player p = e.getPlayer();
+
+        p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
+        p.setGameMode(GameMode.ADVENTURE);
 
         //Give MenuItem
         p.getInventory().clear();
@@ -78,7 +80,7 @@ public class MainEvent implements Listener {
             Bukkit.broadcastMessage(ChatColor.GOLD + p.getDisplayName() + ChatColor.RED + " is out!");
             e.setCancelled(true);
             p.setGameMode(GameMode.SPECTATOR);
-            p.sendTitle(ChatColor.RED + "YOU DIED!",ChatColor.GOLD + "You're TRASH");
+            p.sendTitle(ChatColor.RED + "YOU DIED!",ChatColor.GOLD + "[-----]");
             playerdata.get(p.getUniqueId()).setAlive(false);
             playerdata.get(p.getUniqueId()).setAllowSkill(false);
 
@@ -137,20 +139,55 @@ public class MainEvent implements Listener {
     }
 
     @EventHandler
+    public void preventSpectaterTP(PlayerTeleportEvent e){
+        if(e.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE)
+            e.setCancelled(true);
+    }
+
+    @EventHandler
     public void takeDmg(EntityDamageByEntityEvent e){
+        if(e.getEntity() instanceof IronGolem){
+            if(e.getEntity().hasMetadata("defendBlue") && e.getDamager().hasMetadata("Beta")){
+                e.setCancelled(true);
+            }else if(e.getEntity().hasMetadata("defendRed") && e.getDamager().hasMetadata("Alpha")){
+                e.setCancelled(true);
+            }
+
+        }
+
+
+        if(!(e.getEntity() instanceof Player))
+            return;
         Player p = (Player) e.getEntity();
         if(!playerdata.get(p.getUniqueId()).isInGame()){e.setCancelled(true);}
         if(playerdata.get(p.getUniqueId()).isInLobby()){e.setCancelled(true);}
+
+
+        if(e.getDamager() instanceof Firework){
+            Firework fw = (Firework) e.getDamager();
+            if (fw.hasMetadata(playerdata.get(p.getUniqueId()).getTeam())) {
+                e.setCancelled(true);
+            }
+
+
+
+
+        }
+
     }
 
     @EventHandler
     public void fallDmg(EntityDamageEvent e){
         if(e.getCause() == EntityDamageEvent.DamageCause.FALL){
+            if(!playerdata.get(e.getEntity().getUniqueId()).isFallDamage()){
+                e.setCancelled(true);
+            }
             if(e.getDamage() > 12){
                 ((LivingEntity) e.getEntity()).damage(10);
             }
             e.setCancelled(true);
         }
+
     }
 
 
